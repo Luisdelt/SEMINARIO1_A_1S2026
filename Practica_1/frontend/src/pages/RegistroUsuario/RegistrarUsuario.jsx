@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import {FaEye, FaEyeSlash} from 'react-icons/fa';
 import './style.css';
 
-const Editar_Usuario = () => {
+const Registrar_Usuario = () => {
     const navigate = useNavigate();
     const [foto, setFoto] = useState(null);
     const [preview, setPreview] = useState(null);
+    const [mostrarContrasena, setMostrarContrasena] = useState(false);
+    const [mostrarContrasenaConfirmada, setMostrarContrasenaConfirmada] = useState(false);
+
     const [formData, setFormData] = useState({
         nombre: '',
         apellidos: '',
@@ -17,35 +21,6 @@ const Editar_Usuario = () => {
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
-    useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                const response = await fetch('http://127.0.0.1:5000/user', {
-                    method: 'GET',
-                    credentials: 'include'
-                });
-                const data = await response.json();
-                if (!response.ok) {
-                    setError(data.message);
-                    return;
-                }
-                setFormData({
-                    nombre: data.nombre || '',
-                    apellidos: data.apellidos || '',
-                    correo: data.correo || '',
-                    contrasena: '',
-                    contrasena_confirmada: ''
-                });
-                if (data.foto) {
-                    setPreview(data.foto);
-                }
-
-            } catch (err) {
-                setError("Error:"+ err);
-            }
-        };
-        fetchUserData();
-    }, []);
     const handleFotoChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -53,55 +28,58 @@ const Editar_Usuario = () => {
             setPreview(URL.createObjectURL(file));
         }
     };
-    
 
-    const actualizarUsuario = async (e) => {
+
+    const registraUsuario = async (e) => {
         e.preventDefault();
         setError(null);
 
         const { nombre, apellidos, correo, contrasena, contrasena_confirmada } = formData;
-        
-        if (!nombre || !apellidos || !correo ) {
+
+        if (!nombre || !apellidos || !correo || !contrasena || !contrasena_confirmada) {
             setError('Todos los campos son obligatorios!');
             return;
         }
-        if (contrasena && contrasena !== contrasena_confirmada) {
+
+        if (contrasena !== contrasena_confirmada) {
             setError('Las contraseñas no coinciden!');
             return;
         }
+
         const form = new FormData();
-        form.append("nombre", nombre);
-        form.append("apellidos", apellidos);
+        form.append("nombre_completo", `${nombre} ${apellidos}`);
         form.append("correo", correo);
-        if (contrasena){
-            form.append("contrasena", contrasena);
-        }
-        if(foto){
+        form.append("contrasena", contrasena);
+        form.append("confirmar_contrasena", contrasena_confirmada);
+        if (foto) {
             form.append("foto", foto);
         }
-        
-        const response = await fetch('http://127.0.0.1:5000/edit', {
-            method: 'PUT',
-            credentials: 'include',
-            body: form
-        });
-        
-        const data = await response.json();
-        if (response.ok) {
-            alert("Usuario actualizado con éxito");
-        } else {
-            alert("Error al actualizar usuario");
+
+        try {
+            const response = await fetch('http://127.0.0.1:3000/user/register', {
+                method: 'POST',
+                body: form
+            });
+
+            if (response.ok) {
+                navigate('/');
+            } else {
+                setError("Error al registrar usuario");
+            }
+
+        } catch (err) {
+            setError("Error de red");
         }
     };
 
-    return (<div class="form-wrapper">
-        <div class="form-container">
+    return (<div className="form-wrapper">
+        <div className="form-container">
             <h2>Registrar Usuario</h2>
             <button
                 type="button"
                 className="boton-regresar"
                 onClick={() => navigate('/')}>Regresar</button>
-            <form onSubmit={actualizarUsuario}>
+            <form onSubmit={registraUsuario}>
                 <label>Foto de perfil:</label>
                 <input
                     type="file"
@@ -140,19 +118,25 @@ const Editar_Usuario = () => {
 
                 <label>Contraseña:</label>
                 <input
-                    type="password"
+                    type={mostrarContrasena ? "text" : "password"}
                     name="contrasena"
                     value={formData.contrasena}
                     onChange={handleChange} />
+                <span className="toggle-password" onClick={() => setMostrarContrasena(!mostrarContrasena)}>
+                    {mostrarContrasena ? <FaEyeSlash /> : <FaEye />}
+                </span>
 
                 <label>Confirmar Contraseña:</label>
                 <input
-                    type="password"
+                    type={mostrarContrasenaConfirmada ? "text" : "password"}
                     name="contrasena_confirmada"
                     value={formData.contrasena_confirmada}
                     onChange={handleChange} />
+                <span className="toggle-password" onClick={() => setMostrarContrasenaConfirmada(!mostrarContrasenaConfirmada)}>
+                    {mostrarContrasenaConfirmada ? <FaEyeSlash /> : <FaEye />}
+                </span>
 
-                <button type="submit">Editar usuario</button>
+                <button type="submit">Crear usuario</button>
             </form>
         </div>
     </div>
@@ -161,4 +145,4 @@ const Editar_Usuario = () => {
 
 };
 
-export default Editar_Usuario;
+export default Registrar_Usuario;

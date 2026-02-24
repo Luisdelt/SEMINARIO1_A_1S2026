@@ -72,3 +72,12 @@ button {
 button:hover {
     background-color: #53494964;
 }
+
+.toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 12px;
+    cursor: pointer;
+}
