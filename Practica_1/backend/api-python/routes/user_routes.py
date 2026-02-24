@@ -19,7 +19,7 @@ def register():
     correo              = request.form.get('correo', '').strip()
     nombre_completo     = request.form.get('nombre_completo', '').strip()
     contrasena          = request.form.get('contrasena', '')
-    confirmar           = request.form.get('confirmar_contrasena', '')
+    confirmar = request.form.get('confirmar_contrasena', '')
     foto                = request.files.get('foto')
 
     if not correo or not nombre_completo or not contrasena:

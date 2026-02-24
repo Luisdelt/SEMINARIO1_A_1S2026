@@ -16,11 +16,21 @@ def get_s3_client():
 def upload_profile_photo(file_obj, filename):
     if not S3_ENABLED:
         return None
-    s3 = get_s3_client()
-    key = f"fotos_perfil/{filename}"
-    s3.upload_fileobj(file_obj, Config.S3_BUCKET_IMAGES, key,
-                      ExtraArgs={"ContentType": file_obj.content_type})
-    return key
+    try:
+        s3 = get_s3_client()
+        key = f"fotos_perfil/{filename}"
+        s3.upload_fileobj(
+            file_obj, 
+            Config.S3_BUCKET_IMAGES, 
+            key, 
+            ExtraArgs={
+            "ContentType": file_obj.content_type       
+            })
+        return key
+    except Exception as e:
+        print(f"Error al subir foto de perfil: {e}")
+        return None
+
 
 def upload_movie_poster(file_obj, filename):
     if not S3_ENABLED:
