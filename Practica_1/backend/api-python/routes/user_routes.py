@@ -34,6 +34,7 @@ def register():
         ext      = foto.filename.rsplit('.', 1)[-1].lower()
         filename = f"{uuid.uuid4().hex}.{ext}"
         foto_key = upload_profile_photo(foto, filename)
+        foto_url = get_public_url(foto_key)
 
     conn = get_connection()
     try:
@@ -41,13 +42,13 @@ def register():
             cursor.execute("SELECT id_usuario FROM Usuario WHERE correo = %s", (correo,))
             if cursor.fetchone():
                 return jsonify({"error": "El correo ya está registrado"}), 409
-
+            print(foto_url)
             cursor.execute(
                 """
                 INSERT INTO Usuario (correo, nombre_completo, contrasena, foto_perfil)
                 VALUES (%s, %s, %s, %s)
                 """,
-                (correo, nombre_completo, md5(contrasena), foto_key)
+                (correo, nombre_completo, md5(contrasena), foto_url)
             )
         conn.commit()
         return jsonify({"message": "Usuario registrado exitosamente"}), 201
