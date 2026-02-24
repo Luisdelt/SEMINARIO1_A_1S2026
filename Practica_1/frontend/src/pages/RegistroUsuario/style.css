@@ -1,0 +1,74 @@
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-width: 100vw;
+    top: 0;
+    left: 0;
+    background-color: #ffffff;
+}
+
+.form-container {
+    width: 300px;
+    padding: 2rem;
+    background-color: black;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.93);
+    text-align: center;
+}
+
+h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.tab {
+    text-align: center;
+    font-weight: bold;
+    padding-bottom: 5px;
+    border-bottom: 2px solid #000;
+    margin-bottom: 25px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 14px;
+    font-size: 15px;
+}
+
+input {
+    padding: 8px;
+    font-size: 14px;
+    margin-top: 6px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+}
+
+button {
+    margin-top: 24px;
+    padding: 10px;
+    font-size: 15px;
+    background-color: #295a21;
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.boton-regresar {
+    margin-top: 24px;
+    padding: 10px;
+    font-size: 15px;
+    background-color: #f00000;
+    border: 1px solid #000000;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #53494964;
+}
