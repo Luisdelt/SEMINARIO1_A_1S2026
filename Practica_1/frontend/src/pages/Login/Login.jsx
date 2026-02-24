@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "http://127.0.0.1:3000";
 import './style.css';
 export default function Login() {
     const [username, setUsername] = useState('');
@@ -20,11 +20,11 @@ export default function Login() {
         setError('');
 
         try {
-            const response = await fetch(`${API_URL}/login`, {
+            const response = await fetch(`http://127.0.0.1:3000/user/login`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
-                body: JSON.stringify({ email: username, password }),
+                body: JSON.stringify({ correo: username, contrasena: password }),
             });
 
             const data = await response.json();
@@ -35,20 +35,9 @@ export default function Login() {
                 setIsLoading(false);
                 return;
             }
-
-            if (data.status !== 'success') {
-                setError(data.message || 'Credenciales inválidas');
-                setIsLoading(false);
-                return;
-            }
-
             console.log('Login successful:', data);
             alert('Login successful!');
 
-            if (data.token) {
-                localStorage.setItem('authToken', data.token);
-                console.log(data.token);
-            }
             navigate('/cartelera');
         } catch (error) {
             console.error('Login error:', error);
