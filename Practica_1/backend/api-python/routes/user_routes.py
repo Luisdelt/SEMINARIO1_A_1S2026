@@ -34,7 +34,6 @@ def register():
         ext      = foto.filename.rsplit('.', 1)[-1].lower()
         filename = f"{uuid.uuid4().hex}.{ext}"
         foto_key = upload_profile_photo(foto, filename)
-        foto_url = get_public_url(foto_key)
 
     conn = get_connection()
     try:
@@ -42,13 +41,13 @@ def register():
             cursor.execute("SELECT id_usuario FROM Usuario WHERE correo = %s", (correo,))
             if cursor.fetchone():
                 return jsonify({"error": "El correo ya está registrado"}), 409
-            print(foto_url)
+            print(foto_key)
             cursor.execute(
                 """
                 INSERT INTO Usuario (correo, nombre_completo, contrasena, foto_perfil)
                 VALUES (%s, %s, %s, %s)
                 """,
-                (correo, nombre_completo, md5(contrasena), foto_url)
+                (correo, nombre_completo, md5(contrasena), foto_key)
             )
         conn.commit()
         return jsonify({"message": "Usuario registrado exitosamente"}), 201
@@ -94,6 +93,39 @@ def login():
                 "nombre_completo": usuario['nombre_completo'],
                 "foto_perfil":    foto_url
             }
+        }), 200
+    finally:
+        conn.close()
+
+
+@user_bp.route('/profile', methods=['GET'])
+def get_profile():
+    """
+    Retorna los datos del usuario autenticado desde la sesión.
+    """
+    id_usuario = session.get('id_usuario')
+    if not id_usuario:
+        return jsonify({"error": "No autenticado"}), 401
+
+    conn = get_connection()
+    try:
+        with conn.cursor() as cursor:
+            cursor.execute(
+                "SELECT id_usuario, correo, nombre_completo, foto_perfil FROM Usuario WHERE id_usuario = %s",
+                (id_usuario,)
+            )
+            usuario = cursor.fetchone()
+
+        if not usuario:
+            return jsonify({"error": "Usuario no encontrado"}), 404
+
+        foto_url = get_public_url(usuario['foto_perfil']) if usuario.get('foto_perfil') else None
+
+        return jsonify({
+            "id_usuario": usuario['id_usuario'],
+            "correo": usuario['correo'],
+            "nombre_completo": usuario['nombre_completo'],
+            "foto_perfil": foto_url
         }), 200
     finally:
         conn.close()
