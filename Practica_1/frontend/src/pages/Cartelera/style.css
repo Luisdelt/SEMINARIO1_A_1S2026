@@ -2,61 +2,115 @@
     display: flex;
     min-height: 100vh;
     min-width: 100vw;
-    background-color: #ffffff;
+    background-color: #000000;
+    font-family: Arial, sans-serif;
 }
 
 .slidebar {
     width: 200px;
-    height: 20px;
-    background-color: rgb(34, 194, 146);
+    background-color: rgb(109, 117, 115);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
+    gap : 20px;
+}
+
+.slidebar button {
+    width: 90%;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #295a21;
+    color: white;
+    transition: 0.3s;
+}
+
+.slidebar button:hover {
+    background-color: #0000d1;
 }
 
 .cartelera-container {
+    flex: 1;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #57724f;
+}
+
+.pelicula-grid{
+    display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    width: 80%;
-    padding: 25rem;
-    background-color: rgb(176, 192, 51);
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.93);
-    text-align: center;
+    gap: 2rem;
+    width: 100%;
 }
 
 .pelicula-tarjeta{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 200px;
-    padding: 1rem;
-    background-color: rgb(255, 255, 255);
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.93);
-    text-align: center;
-
+    flex-direction: row;
+    width: 650px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s;
 }
 
-.pelicula-imagen{
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 1rem;
+.pelicula-tarjeta:hover {
+    transform: scale(1.05);
+}
+
+.pelicula-imagen img{
+    width: 180px;
+    height: 270px;
+    object-fit: cover;
 }
 
 .pelicula-info{
-    color: white;
-    font-size: 14px;
-    margin-bottom: 0.5rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color:#000000
 }
 
-.pelicula-acciones{
-    display: flex;
-    justify-content: space-between;
+.pelicula-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+.pelicula-acciones button {
+    background-color: #295a21;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color:white;
+    font-weight: bold;
+    transition: 0.3s;
     width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+}
+
+.pelicula-acciones button:hover{
+    background-color: #0000d1;
+}
+
+.sin-imagen {
+    width: 180px;
+    height: 270px;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 14px;
 }
