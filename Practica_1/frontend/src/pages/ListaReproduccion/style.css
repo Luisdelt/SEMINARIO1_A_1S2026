@@ -1,0 +1,262 @@
+/* ── Layout ─────────────────────────────── */
+.lista-wrapper {
+    display: flex;
+    min-height: 100vh;
+    min-width: 100vw;
+    background-color: #000000;
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+/* ── Sidebar (mismo estilo que Cartelera) ── */
+.slidebar {
+    width: 200px;
+    background-color: rgb(109, 117, 115);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    gap: 15px;
+}
+
+.slidebar-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    width: 90%;
+}
+
+.slidebar-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #295a21;
+}
+
+.slidebar-nombre {
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    word-break: break-word;
+}
+
+.slidebar button {
+    width: 90%;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    background-color: #295a21;
+    color: white;
+    transition: 0.3s;
+}
+
+.slidebar button:hover {
+    background-color: #0000d1;
+}
+
+.btn-logout {
+    background-color: #7a1a1a !important;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.btn-logout:hover {
+    background-color: #b00000 !important;
+}
+
+/* ── Contenido principal ─────────────────── */
+.lista-container {
+    flex: 1;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #57724f;
+}
+
+.lista-titulo {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.lista-estado {
+    color: white;
+}
+
+.lista-error {
+    color: #ffcccc;
+    background: rgba(180, 0, 0, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+.lista-vacia {
+    text-align: center;
+    color: white;
+    margin-top: 3rem;
+}
+
+.lista-vacia button {
+    margin-top: 1rem;
+    background-color: #295a21;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.lista-vacia button:hover {
+    background-color: #0000d1;
+}
+
+/* ── Grid de playlist ────────────────────── */
+.playlist-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.playlist-tarjeta {
+    display: flex;
+    flex-direction: row;
+    width: 550px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.playlist-tarjeta:hover {
+    transform: scale(1.03);
+}
+
+.playlist-imagen img {
+    width: 140px;
+    height: 210px;
+    object-fit: cover;
+}
+
+.sin-imagen {
+    width: 140px;
+    height: 210px;
+    background-color: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+    font-size: 13px;
+}
+
+/* ── Info y acciones ─────────────────────── */
+.playlist-info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: #000000;
+    flex: 1;
+}
+
+.playlist-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.1rem;
+}
+
+.playlist-info p {
+    margin: 0.2rem 0;
+    font-size: 0.88rem;
+}
+
+.playlist-acciones {
+    margin-top: auto;
+    padding-top: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.btn-ver {
+    display: block;
+    text-align: center;
+    background-color: #0004fb;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-ver:hover {
+    background-color: #0000d1;
+    color: white;
+}
+
+.btn-eliminar {
+    background-color: #7a1a1a;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: 0.3s;
+    width: 100%;
+}
+
+.btn-eliminar:hover {
+    background-color: #b00000;
+}
+
+/* ── Toast Notification ──────────────────── */
+.toast-notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    padding: 14px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+.toast-success {
+    background-color: #295a21;
+    color: white;
+}
+
+.toast-error {
+    background-color: #7a1a1a;
+    color: white;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
