@@ -59,6 +59,7 @@ button {
     cursor: pointer;
     border-radius: 5px;
 }
+
 .boton-regresar {
     margin-top: 24px;
     padding: 10px;
@@ -71,4 +72,28 @@ button {
 
 button:hover {
     background-color: #53494964;
+}
+
+.foto-opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.btn-camara {
+    background-color: #0004fb !important;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: bold;
+    margin-top: 0 !important;
+    transition: background-color 0.25s;
+}
+
+.btn-camara:hover {
+    background-color: #0000d1 !important;
 }
