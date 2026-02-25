@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { FaSignOutAlt } from 'react-icons/fa';
 import './style.css';
 
 const API_URL = "http://127.0.0.1:3000";
@@ -80,14 +81,23 @@ export default function ListaReproduccion() {
             )}
             <div className="slidebar">
                 <div className="slidebar-user">
-                    {usuario?.foto_perfil && (
-                        <img src={usuario.foto_perfil} alt="Perfil" className="slidebar-avatar" />
-                    )}
+                    <div className="avatar-wrapper">
+                        {usuario?.foto_perfil
+                            ? <img src={usuario.foto_perfil} alt="Perfil" className="slidebar-avatar" />
+                            : <div className="slidebar-avatar-placeholder">{usuario?.nombre_completo?.[0]?.toUpperCase()}</div>
+                        }
+                        <button
+                            className="btn-logout-icon"
+                            onClick={handleLogout}
+                            title="Cerrar sesión"
+                        >
+                            <FaSignOutAlt />
+                        </button>
+                    </div>
                     <span className="slidebar-nombre">{usuario?.nombre_completo}</span>
                 </div>
                 <button onClick={() => navigate('/cartelera')}>Cartelera</button>
                 <button onClick={() => navigate('/editar-informacion')}>Editar información</button>
-                <button onClick={handleLogout} className="btn-logout">Cerrar sesión</button>
             </div>
 
             <div className="lista-container">
