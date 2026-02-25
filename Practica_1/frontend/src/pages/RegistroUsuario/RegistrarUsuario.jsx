@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {FaEye, FaEyeSlash} from 'react-icons/fa';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import CamaraModal from '../../components/CamaraModal/CamaraModal';
 import './style.css';
 
 const Registrar_Usuario = () => {
@@ -9,6 +10,7 @@ const Registrar_Usuario = () => {
     const [preview, setPreview] = useState(null);
     const [mostrarContrasena, setMostrarContrasena] = useState(false);
     const [mostrarContrasenaConfirmada, setMostrarContrasenaConfirmada] = useState(false);
+    const [mostrarCamara, setMostrarCamara] = useState(false);
 
     const [formData, setFormData] = useState({
         nombre: '',
@@ -18,9 +20,11 @@ const Registrar_Usuario = () => {
         contrasena_confirmada: ''
     });
     const [error, setError] = useState(null);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-    }
+    };
+
     const handleFotoChange = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -29,6 +33,11 @@ const Registrar_Usuario = () => {
         }
     };
 
+    const handleCaptura = (file) => {
+        setFoto(file);
+        setPreview(URL.createObjectURL(file));
+        setMostrarCamara(false);
+    };
 
     const registraUsuario = async (e) => {
         e.preventDefault();
@@ -64,85 +73,121 @@ const Registrar_Usuario = () => {
             if (response.ok) {
                 navigate('/');
             } else {
-                setError("Error al registrar usuario");
+                const data = await response.json();
+                setError(data.error || "Error al registrar usuario");
             }
-
         } catch (err) {
             setError("Error de red");
         }
     };
 
-    return (<div className="form-wrapper">
-        <div className="form-container">
-            <h2>Registrar Usuario</h2>
-            <button
-                type="button"
-                className="boton-regresar"
-                onClick={() => navigate('/')}>Regresar</button>
-            <form onSubmit={registraUsuario}>
-                <label>Foto de perfil:</label>
-                <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFotoChange}></input>
-                {preview && <img src={preview} alt="Preview" 
-                style={{ 
-                    maxWidth: '100px', 
-                    maxHeight: '100px',
-                    objectFit: 'cover',
-                    borderRadius: '50%',
-                    marginBottom: '10px',
-                    display: 'block',
-                    margin: '10px auto'
-                }}/>}
-                <label>Nombre:</label>
-                <input
-                    type="text"
-                    name="nombre"
-                    value={formData.nombre}
-                    onChange={handleChange} />
+    return (
+        <div className="form-wrapper">
+            {mostrarCamara && (
+                <CamaraModal
+                    onCaptura={handleCaptura}
+                    onCerrar={() => setMostrarCamara(false)}
+                />
+            )}
+            <div className="form-container">
+                <h2>Registrar Usuario</h2>
+                <button
+                    type="button"
+                    className="boton-regresar"
+                    onClick={() => navigate('/')}
+                >
+                    Regresar
+                </button>
+                <form onSubmit={registraUsuario}>
+                    {error && <p style={{ color: 'red', fontSize: '0.85rem' }}>{error}</p>}
 
-                <label>Apellidos:</label>
-                <input
-                    type="text"
-                    name="apellidos"
-                    value={formData.apellidos}
-                    onChange={handleChange} />
+                    <label>Foto de perfil:</label>
+                    <div className="foto-opciones">
+                        <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleFotoChange}
+                        />
+                        <button
+                            type="button"
+                            className="btn-camara"
+                            onClick={() => setMostrarCamara(true)}
+                        >
+                            Usar cámara
+                        </button>
+                    </div>
+                    {preview && (
+                        <img
+                            src={preview}
+                            alt="Preview"
+                            style={{
+                                maxWidth: '100px',
+                                maxHeight: '100px',
+                                objectFit: 'cover',
+                                borderRadius: '50%',
+                                margin: '10px auto',
+                                display: 'block'
+                            }}
+                        />
+                    )}
 
-                <label>Correo electrónico:</label>
-                <input
-                    type="email"
-                    name="correo"
-                    value={formData.correo}
-                    onChange={handleChange} />
+                    <label>Nombre:</label>
+                    <input
+                        type="text"
+                        name="nombre"
+                        value={formData.nombre}
+                        onChange={handleChange}
+                    />
 
-                <label>Contraseña:</label>
-                <input
-                    type={mostrarContrasena ? "text" : "password"}
-                    name="contrasena"
-                    value={formData.contrasena}
-                    onChange={handleChange} />
-                <span className="toggle-password" onClick={() => setMostrarContrasena(!mostrarContrasena)}>
-                    {mostrarContrasena ? <FaEyeSlash /> : <FaEye />}
-                </span>
+                    <label>Apellidos:</label>
+                    <input
+                        type="text"
+                        name="apellidos"
+                        value={formData.apellidos}
+                        onChange={handleChange}
+                    />
 
-                <label>Confirmar Contraseña:</label>
-                <input
-                    type={mostrarContrasenaConfirmada ? "text" : "password"}
-                    name="contrasena_confirmada"
-                    value={formData.contrasena_confirmada}
-                    onChange={handleChange} />
-                <span className="toggle-password" onClick={() => setMostrarContrasenaConfirmada(!mostrarContrasenaConfirmada)}>
-                    {mostrarContrasenaConfirmada ? <FaEyeSlash /> : <FaEye />}
-                </span>
+                    <label>Correo electrónico:</label>
+                    <input
+                        type="email"
+                        name="correo"
+                        value={formData.correo}
+                        onChange={handleChange}
+                    />
 
-                <button type="submit">Crear usuario</button>
-            </form>
+                    <label>Contraseña:</label>
+                    <div style={{ position: 'relative' }}>
+                        <input
+                            type={mostrarContrasena ? "text" : "password"}
+                            name="contrasena"
+                            value={formData.contrasena}
+                            onChange={handleChange}
+                            style={{ width: '100%', boxSizing: 'border-box' }}
+                        />
+                        <span className="toggle-password" onClick={() => setMostrarContrasena(!mostrarContrasena)}>
+                            {mostrarContrasena ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                    </div>
+
+                    <label>Confirmar Contraseña:</label>
+                    <div style={{ position: 'relative' }}>
+                        <input
+                            type={mostrarContrasenaConfirmada ? "text" : "password"}
+                            name="contrasena_confirmada"
+                            value={formData.contrasena_confirmada}
+                            onChange={handleChange}
+                            style={{ width: '100%', boxSizing: 'border-box' }}
+                        />
+                        <span className="toggle-password" onClick={() => setMostrarContrasenaConfirmada(!mostrarContrasenaConfirmada)}>
+                            {mostrarContrasenaConfirmada ? <FaEyeSlash /> : <FaEye />}
+                        </span>
+                    </div>
+
+                    <button type="submit">Crear usuario</button>
+                </form>
+            </div>
         </div>
-    </div>
     );
-
-
 };
 
 export default Registrar_Usuario;
