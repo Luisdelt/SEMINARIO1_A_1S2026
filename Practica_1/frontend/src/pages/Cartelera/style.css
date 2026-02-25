@@ -1,11 +1,14 @@
+/* ── Layout ─────────────────────────────── */
 .cartelera-wrapper {
     display: flex;
     min-height: 100vh;
     min-width: 100vw;
     background-color: #000000;
     font-family: Arial, sans-serif;
+    position: relative;
 }
 
+/* ── Sidebar ─────────────────────────────── */
 .slidebar {
     width: 200px;
     background-color: rgb(109, 117, 115);
@@ -13,7 +16,33 @@
     flex-direction: column;
     align-items: center;
     padding-top: 20px;
-    gap : 20px;
+    gap: 15px;
+}
+
+.slidebar-user {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    width: 90%;
+}
+
+.slidebar-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #295a21;
+}
+
+.slidebar-nombre {
+    color: white;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    word-break: break-word;
 }
 
 .slidebar button {
@@ -32,6 +61,17 @@
     background-color: #0000d1;
 }
 
+.btn-logout {
+    background-color: #7a1a1a !important;
+    margin-top: auto;
+    margin-bottom: 20px;
+}
+
+.btn-logout:hover {
+    background-color: #b00000 !important;
+}
+
+/* ── Contenido principal ─────────────────── */
 .cartelera-container {
     flex: 1;
     padding: 2rem;
@@ -41,7 +81,21 @@
     background-color: #57724f;
 }
 
-.pelicula-grid{
+.cartelera-titulo {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+}
+
+.cartelera-error {
+    color: #ffcccc;
+    background: rgba(180, 0, 0, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+}
+
+/* ── Grid de películas ───────────────────── */
+.pelicula-grid {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -49,7 +103,7 @@
     width: 100%;
 }
 
-.pelicula-tarjeta{
+.pelicula-tarjeta {
     display: flex;
     flex-direction: row;
     width: 650px;
@@ -61,47 +115,13 @@
 }
 
 .pelicula-tarjeta:hover {
-    transform: scale(1.05);
+    transform: scale(1.03);
 }
 
-.pelicula-imagen img{
+.pelicula-imagen img {
     width: 180px;
     height: 270px;
     object-fit: cover;
-}
-
-.pelicula-info{
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    color:#000000
-}
-
-.pelicula-info h3 {
-    margin: 0 0 0.5rem 0;
-    font-size: 1.5rem;
-}
-
-.pelicula-acciones button {
-    background-color: #295a21;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    color:white;
-    font-weight: bold;
-    transition: 0.3s;
-    width: 100%;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-}
-
-.pelicula-acciones button:hover{
-    background-color: #0000d1;
 }
 
 .sin-imagen {
@@ -113,4 +133,129 @@
     justify-content: center;
     color: #666;
     font-size: 14px;
+}
+
+/* ── Info y acciones ─────────────────────── */
+.pelicula-info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    color: #000000;
+    flex: 1;
+}
+
+.pelicula-info h3 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.pelicula-info p {
+    margin: 0.2rem 0;
+    font-size: 0.9rem;
+}
+
+.pelicula-info a {
+    color: #0000d1;
+    text-decoration: underline;
+}
+
+.pelicula-acciones {
+    margin-top: auto;
+    padding-top: 0.8rem;
+}
+
+.pelicula-acciones button {
+    background-color: #295a21;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    transition: 0.3s;
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pelicula-acciones button:hover {
+    background-color: #0000d1;
+}
+
+.pelicula-acciones button.btn-ya-agregada,
+.pelicula-acciones button.btn-ya-agregada:hover {
+    background-color: #777;
+    cursor: not-allowed;
+    opacity: 0.75;
+}
+
+/* ── Estado badges ───────────────────────── */
+.estado-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: bold;
+}
+
+.estado-disponible {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.estado-proximo {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.etiqueta-proximo {
+    display: inline-block;
+    background-color: #fff3cd;
+    color: #856404;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* ── Toast Notification ──────────────────── */
+.toast-notification {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    padding: 14px 22px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease;
+}
+
+.toast-success {
+    background-color: #295a21;
+    color: white;
+}
+
+.toast-error {
+    background-color: #7a1a1a;
+    color: white;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
