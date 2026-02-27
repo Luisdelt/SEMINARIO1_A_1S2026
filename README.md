@@ -7,8 +7,8 @@
 
 | Nombre | Carné |
 | --- | --- |
-| nombre1 | carné1 |
-| nombre2 | carné2 |
+| Luis Carlos De Leon Toron| 202212535 |
+| Keneth Willard Lopez Ovalle | 202100106 |
 | Nelson Emanuel Cún Bálan | 201222010 |
 
 ## Introducción
